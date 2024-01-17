@@ -1,0 +1,33 @@
+import collections
+
+def find_short_routes(block, blocked_cells):
+    queue = collections.deque([(0, [0])])  
+    visited = set([0])
+    short_routes = []
+
+    while queue:
+        curr_cell, path = queue.popleft()
+
+        if curr_cell == 24:  
+            short_routes.append(path)
+            continue
+
+        for next_cell in (curr_cell - 5, curr_cell + 5, curr_cell - 1, curr_cell + 1):
+            if 0 <= next_cell < 25 and next_cell not in blocked_cells and next_cell not in visited:
+                queue.append((next_cell, path + [next_cell]))
+                visited.add(next_cell)
+
+    return short_routes
+
+block = [1] * 25  
+blocked_cells = [7,9, 10,14,17,18,19]  
+
+
+short_routes = find_short_routes(block, blocked_cells)
+
+if short_routes:
+    print("Shortest routes are:")
+    for route in short_routes:
+        print(route)
+else:
+    print("No path found.")
